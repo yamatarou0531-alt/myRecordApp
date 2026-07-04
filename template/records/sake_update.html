@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <a href="javascript:history.back()" class="mb-4 inline-flex items-center gap-1 text-sm text-sake-500 transition hover:text-sake-700">
+        ← 戻る
+    </a>
+
+    <div class="rounded-xl border border-sake-200 bg-white p-6 shadow-sm">
+        <h1 class="mb-6 text-2xl font-bold text-sake-800">{{ title }}</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="mt-6 flex gap-3">
+                <button type="submit"
+                        class="rounded-lg bg-sake-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-sake-700">
+                    更新
+                </button>
+                <a href="javascript:history.back()"
+                   class="rounded-lg border border-sake-200 px-5 py-2.5 text-sm font-medium text-sake-700 transition hover:bg-sake-50">
+                    キャンセル
+                </a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

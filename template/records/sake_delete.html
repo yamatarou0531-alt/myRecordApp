@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <div class="mx-auto max-w-md rounded-xl border border-red-200 bg-white p-6 shadow-sm">
+        <div class="mb-4 flex items-center gap-3">
+            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 text-xl text-red-600">🗑️</span>
+            <h1 class="text-xl font-bold text-sake-900">{{ title }}</h1>
+        </div>
+        <p class="mb-4 text-sake-600">この投稿を削除します。この操作は取り消せません。</p>
+
+        {% if record.image %}
+            <img src="{{ record.image.url }}" alt="{{ record.title }}" class="mb-4 h-40 w-full rounded-lg object-cover">
+        {% endif %}
+
+        <dl class="mb-6 divide-y divide-sake-100 rounded-lg border border-sake-100">
+            <div class="grid grid-cols-3 gap-4 px-4 py-3">
+                <dt class="text-sm font-medium text-sake-500">名称</dt>
+                <dd class="col-span-2 text-sake-900">{{ record.title }}</dd>
+            </div>
+            <div class="grid grid-cols-3 gap-4 px-4 py-3">
+                <dt class="text-sm font-medium text-sake-500">記録日</dt>
+                <dd class="col-span-2 text-sake-900">{{ record.recorded_at }}</dd>
+            </div>
+        </dl>
+
+        <div class="flex gap-3">
+            <form method="POST" class="flex-1">
+                {% csrf_token %}
+                <button type="submit"
+                        class="w-full rounded-lg bg-red-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-red-700">
+                    削除する
+                </button>
+            </form>
+            <a href="{% url 'sake:sake_detail' record.id %}"
+               class="flex-1 rounded-lg border border-sake-200 px-5 py-2.5 text-center text-sm font-medium text-sake-700 transition hover:bg-sake-50">
+                戻る
+            </a>
+        </div>
+    </div>
+{% endblock %}

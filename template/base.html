@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}{% endblock %} | 日本酒の記録</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            sake: {
+                                50: '#faf7f2',
+                                100: '#f3ece0',
+                                200: '#e6d7bf',
+                                300: '#d4b98d',
+                                400: '#c29a5e',
+                                500: '#b0803f',
+                                600: '#966733',
+                                700: '#78502c',
+                                800: '#634229',
+                                900: '#533825',
+                            },
+                        },
+                        fontFamily: {
+                            sans: ['"Hiragino Kaku Gothic ProN"', '"Noto Sans JP"', 'Meiryo', 'sans-serif'],
+                        },
+                    },
+                },
+            }
+        </script>
+        <!-- Django が自動生成するフォーム要素にも統一スタイルを当てる -->
+        <style type="text/tailwindcss">
+            @layer base {
+                form p {
+                    @apply mb-4;
+                }
+                form label {
+                    @apply block mb-1 text-sm font-medium text-sake-800;
+                }
+                form input[type="text"],
+                form input[type="number"],
+                form textarea,
+                form select {
+                    @apply w-full rounded-lg border border-sake-200 bg-white px-3 py-2 text-sake-900
+                           shadow-sm transition focus:border-sake-400 focus:outline-none
+                           focus:ring-2 focus:ring-sake-300;
+                }
+                form textarea {
+                    @apply min-h-[7rem];
+                }
+                form input[type="file"] {
+                    @apply block w-full text-sm text-sake-700
+                           file:mr-4 file:rounded-lg file:border-0 file:bg-sake-100
+                           file:px-4 file:py-2 file:text-sm file:font-medium file:text-sake-800
+                           hover:file:bg-sake-200;
+                }
+                form .helptext {
+                    @apply block mt-1 text-xs text-sake-500;
+                }
+                form ul.errorlist {
+                    @apply mb-2 list-none rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700;
+                }
+            }
+        </style>
+    </head>
+    <body class="min-h-screen bg-sake-50 font-sans text-sake-900 antialiased">
+        <header class="border-b border-sake-200 bg-white/80 backdrop-blur">
+            <div class="mx-auto flex max-w-3xl items-center justify-between px-4 py-4">
+                <a href="{% url 'sake:sake_list' %}" class="flex items-center gap-2 text-lg font-bold text-sake-800 transition hover:text-sake-600">
+                    <span class="text-2xl">🍶</span>
+                    <span>日本酒の記録</span>
+                </a>
+                <a href="{% url 'sake:sake_create' %}"
+                   class="rounded-lg bg-sake-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-sake-700">
+                    ＋新規作成
+                </a>
+            </div>
+        </header>
+
+        <main class="mx-auto max-w-3xl px-4 py-8">
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="mt-12 border-t border-sake-200 py-6 text-center text-xs text-sake-400">
+            🍶 myRecordApp — 日本酒の記録
+        </footer>
+    </body>
+</html>

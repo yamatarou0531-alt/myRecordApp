@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <h1 class="mb-6 text-2xl font-bold text-sake-800">日本酒の記録</h1>
+
+    {% if records %}
+        <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {% for record in records %}
+                <li>
+                    <a href="{% url 'sake:sake_detail' record.id %}"
+                       class="group flex gap-4 overflow-hidden rounded-xl border border-sake-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-sake-300 hover:shadow-md">
+                        {% if record.image %}
+                            <img src="{{ record.image.url }}" alt="{{ record.title }}"
+                                 class="h-20 w-20 flex-shrink-0 rounded-lg object-cover">
+                        {% else %}
+                            <div class="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-lg bg-sake-100 text-3xl">🍶</div>
+                        {% endif %}
+                        <div class="min-w-0 flex-1">
+                            <p class="truncate text-lg font-semibold text-sake-900 group-hover:text-sake-700">{{ record.title }}</p>
+                            {% if record.brewery %}
+                                <p class="truncate text-sm text-sake-500">{{ record.brewery }}</p>
+                            {% endif %}
+                            <div class="mt-2 flex items-center gap-2">
+                                <span class="text-amber-500">
+                                    {% for _ in "12345"|make_list %}{% if forloop.counter <= record.rating %}★{% else %}<span class="text-sake-200">★</span>{% endif %}{% endfor %}
+                                </span>
+                                {% if record.sake_type %}
+                                    <span class="rounded-full bg-sake-100 px-2 py-0.5 text-xs text-sake-700">{{ record.sake_type }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="rounded-xl border border-dashed border-sake-300 bg-white py-16 text-center">
+            <p class="text-4xl">🍶</p>
+            <p class="mt-4 text-sake-500">まだ記録はありません</p>
+            <a href="{% url 'sake:sake_create' %}"
+               class="mt-4 inline-block rounded-lg bg-sake-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-sake-700">
+                最初の記録を追加する
+            </a>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}{{ record.title }}{% endblock %}
+
+{% block content %}
+    <a href="{% url 'sake:sake_list' %}" class="mb-4 inline-flex items-center gap-1 text-sm text-sake-500 transition hover:text-sake-700">
+        ← 一覧に戻る
+    </a>
+
+    <article class="overflow-hidden rounded-xl border border-sake-200 bg-white shadow-sm">
+        {% if record.image %}
+            <img src="{{ record.image.url }}" alt="{{ record.title }}" class="h-64 w-full object-cover">
+        {% endif %}
+
+        <div class="p-6">
+            <div class="flex items-start justify-between gap-4">
+                <div>
+                    <h1 class="text-2xl font-bold text-sake-900">{{ record.title }}</h1>
+                    {% if record.brewery %}
+                        <p class="mt-1 text-sake-500">{{ record.brewery }}</p>
+                    {% endif %}
+                </div>
+                <span class="whitespace-nowrap text-lg text-amber-500">
+                    {% for _ in "12345"|make_list %}{% if forloop.counter <= record.rating %}★{% else %}<span class="text-sake-200">★</span>{% endif %}{% endfor %}
+                </span>
+            </div>
+
+            <dl class="mt-6 divide-y divide-sake-100 border-t border-sake-100">
+                <div class="grid grid-cols-3 gap-4 py-3">
+                    <dt class="text-sm font-medium text-sake-500">種類</dt>
+                    <dd class="col-span-2 text-sake-900">{{ record.sake_type|default:"—" }}</dd>
+                </div>
+                <div class="grid grid-cols-3 gap-4 py-3">
+                    <dt class="text-sm font-medium text-sake-500">評価</dt>
+                    <dd class="col-span-2 text-sake-900">{{ record.rating }} / 5</dd>
+                </div>
+                <div class="grid grid-cols-3 gap-4 py-3">
+                    <dt class="text-sm font-medium text-sake-500">メモ</dt>
+                    <dd class="col-span-2 whitespace-pre-wrap text-sake-900">{{ record.memo|default:"—" }}</dd>
+                </div>
+                <div class="grid grid-cols-3 gap-4 py-3">
+                    <dt class="text-sm font-medium text-sake-500">記録日</dt>
+                    <dd class="col-span-2 text-sake-900">{{ record.recorded_at }}</dd>
+                </div>
+            </dl>
+
+            <div class="mt-6 flex flex-wrap gap-3">
+                <a href="{% url 'sake:sake_update' record.id %}"
+                   class="rounded-lg bg-sake-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-sake-700">編集</a>
+                <a href="{% url 'sake:sake_delete' record.id %}"
+                   class="rounded-lg border border-red-200 px-4 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50">削除</a>
+            </div>
+        </div>
+    </article>
+{% endblock %}
