@@ -43,6 +43,17 @@ if DEBUG and not ALLOWED_HOSTS:
 # ALLOWED_HOSTS の各ホストを https:// 付きで登録する。
 CSRF_TRUSTED_ORIGINS = ['https://' + h for h in ALLOWED_HOSTS if '.' in h]
 
+# 本番（DEBUG=False）でのみ有効にする HTTPS 向けセキュリティ設定。
+# PythonAnywhere は HTTPS で配信されるため安全に有効化できる。
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000  # 1 年
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+
 
 # Application definition
 
